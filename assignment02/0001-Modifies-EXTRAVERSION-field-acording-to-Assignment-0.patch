@@ -1,0 +1,28 @@
+From 22c65d9fbe0a168c9d30d5068636857752c5284b Mon Sep 17 00:00:00 2001
+From: eina <ecoma-ba@student.42barcelona.com>
+Date: Tue, 18 Aug 2026 14:06:06 +0200
+Subject: [PATCH] Modifies EXTRAVERSION field acording to Assignment 02
+
+Signed-off-by: eina <ecoma-ba@student.42barcelona.com>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Makefile b/Makefile
+index ddcc6dca1..474226728 100644
+--- a/Makefile
++++ b/Makefile
+@@ -2,7 +2,7 @@
+ VERSION = 7
+ PATCHLEVEL = 2
+ SUBLEVEL = 0
+-EXTRAVERSION =
++EXTRAVERSION = -thor_kernel
+ NAME = Baby Opossum Posse
+ 
+ # *DOCUMENTATION*
+
+base-commit: 0f23d56f17fdfc7db69d51f64c8b91bbab947aa9
+-- 
+2.53.0
+
