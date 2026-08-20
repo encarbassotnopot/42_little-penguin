@@ -6,4 +6,5 @@ qemu-system-x86_64 \
 	-nic user,model=virtio \
 	-virtfs local,path=.,mount_tag=pingu,security_model=mapped,id=pingu \
 	-nographic \
-	-accel kvm
+	-accel kvm \
+	-device qemu-xhci,id=xhci

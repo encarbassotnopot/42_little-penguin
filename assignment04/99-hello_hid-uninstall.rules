@@ -1,0 +1,1 @@
+ACTION=="remove", SUBSYSTEM=="usb", ENV{INTERFACE}=="3/1/1", RUN+="/sbin/modprobe -r hello_hid"
