@@ -1,7 +1,7 @@
 # per https://www.kernel.org/doc/html/v7.2/kbuild/modules.html - shared makefile
 
 ifneq ($(KERNELRELEASE),)
-obj-m := hello_world.o
+obj-m := misc_dev.o
 
 else
 KDIR ?= /lib/modules/`uname -r`/build
