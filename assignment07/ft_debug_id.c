@@ -3,11 +3,7 @@
 #include <linux/fs.h>
 #include <linux/uaccess.h>
 #include <linux/kernel.h>
-#include "misc_dev.h"
-
-MODULE_LICENSE("GPL");
-MODULE_AUTHOR("ecoma-ba");
-MODULE_DESCRIPTION("Registers /dev/fortytwo");
+#include "ft_debug_id.h"
 
 static const char LOGIN[] = "ecoma-ba\n";
 static const ssize_t LOGIN_LEN = sizeof(LOGIN);
@@ -50,9 +46,6 @@ ssize_t ft_write (struct file *filp, const char __user *buff, size_t count, loff
 
 	ret = count;
 	
-	//pr_info("/dev/fortytwo: Wrote %u bytes at offset %i. Will report %u bytes\n", (unsigned int) real_count, (int) *offp, (unsigned int) count);
-	//pr_info("/dev/fortytwo: len %u, string: %s\n", (unsigned int) strlen(MY_BUFFER), MY_BUFFER);
-
 	if (strcmp(LOGIN, MY_BUFFER) != 0)
 		ret = -EINVAL;
 
@@ -61,27 +54,9 @@ ssize_t ft_write (struct file *filp, const char __user *buff, size_t count, loff
 	return ret;
 }
 
-static const struct file_operations ft_fops = {
+const struct file_operations ft_fops = {
 	.owner = THIS_MODULE,
 	.read = ft_read,
 	.write = ft_write,
 };
 
-static struct miscdevice fortytwo = {
-	.minor = MISC_DYNAMIC_MINOR,
-	.name = "fortytwo",
-	.fops = &ft_fops,
-};
-
-static int __init hello(void)
-{
-        return misc_register(&fortytwo);
-}
-
-static void __exit goodbye(void)
-{
-        misc_deregister(&fortytwo);
-}
-
-module_init(hello);
-module_exit(goodbye);
