@@ -2,7 +2,7 @@
 
 ifneq ($(KERNELRELEASE),)
 obj-m := debug.o
-debug-objs := debugfs.o ft_debug_id.o
+debug-objs := debugfs.o ft_debug_id.o ft_debug_jiffies.o
 
 else
 KDIR ?= /lib/modules/`uname -r`/build
