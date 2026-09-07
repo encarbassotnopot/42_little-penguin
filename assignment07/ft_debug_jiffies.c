@@ -2,6 +2,7 @@
 #include <linux/kernel.h>
 #include <linux/jiffies.h>
 #include <linux/uaccess.h>
+#include "ft_debug_jiffies.h"
 
 ssize_t print_jif(struct file *filp, char __user *buff, size_t count, loff_t *offp)
 {

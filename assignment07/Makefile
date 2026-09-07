@@ -2,10 +2,11 @@
 
 ifneq ($(KERNELRELEASE),)
 obj-m := debug.o
-debug-objs := debugfs.o ft_debug_id.o ft_debug_jiffies.o
+debug-objs := debugfs.o ft_debug_id.o ft_debug_jiffies.o ft_debug_foo.o
 
 else
 KDIR ?= /lib/modules/`uname -r`/build
+CFLAGS += -Wall -Wextra
 
 all: modules
 
