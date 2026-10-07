@@ -12,9 +12,9 @@ MODULE_DESCRIPTION("Registers /dev/fortytwo");
 static const char LOGIN[] = "ecoma-ba\n";
 static const ssize_t LOGIN_LEN = sizeof(LOGIN);
 #define MY_BUFFER_SIZE 20
-static char MY_BUFFER[MY_BUFFER_SIZE+1];
+static char MY_BUFFER[MY_BUFFER_SIZE + 1];
 
-ssize_t ft_read (struct file *filp, char __user *buff, size_t count, loff_t *offp)
+ssize_t ft_read(struct file *filp, char __user *buff, size_t count, loff_t *offp)
 {
 	// és divertit veure què passa si no uses *offp com toca.
 	// pr_info("/dev/fortytwo: Read %u bytes at offset %i\n", (unsigned int) count, (int) *offp);
@@ -33,11 +33,12 @@ ssize_t ft_read (struct file *filp, char __user *buff, size_t count, loff_t *off
 	return count;
 }
 
-ssize_t ft_write (struct file *filp, const char __user *buff, size_t count, loff_t *offp)
+ssize_t ft_write(struct file *filp, const char __user *buff, size_t count, loff_t *offp)
 {
 	size_t real_count = count;
 	int ret = 0;
-	memset(MY_BUFFER, 0, MY_BUFFER_SIZE+1);
+
+	memset(MY_BUFFER, 0, MY_BUFFER_SIZE + 1);
 
 	if (*offp >= MY_BUFFER_SIZE)
 		return count;
@@ -49,7 +50,7 @@ ssize_t ft_write (struct file *filp, const char __user *buff, size_t count, loff
 		return -EFAULT;
 
 	ret = count;
-	
+
 	//pr_info("/dev/fortytwo: Wrote %u bytes at offset %i. Will report %u bytes\n", (unsigned int) real_count, (int) *offp, (unsigned int) count);
 	//pr_info("/dev/fortytwo: len %u, string: %s\n", (unsigned int) strlen(MY_BUFFER), MY_BUFFER);
 
@@ -75,12 +76,12 @@ static struct miscdevice fortytwo = {
 
 static int __init hello(void)
 {
-        return misc_register(&fortytwo);
+	return misc_register(&fortytwo);
 }
 
 static void __exit goodbye(void)
 {
-        misc_deregister(&fortytwo);
+	misc_deregister(&fortytwo);
 }
 
 module_init(hello);

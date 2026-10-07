@@ -6,13 +6,13 @@ MODULE_DESCRIPTION("Prints on install and removal");
 
 static int __init hello(void)
 {
-        pr_info("Hello world!\n");
+	pr_info("Hello world!\n");
 	return 0;
 }
 
 static void __exit goodbye(void)
 {
-        pr_info("Cleaning up module.\n");
+	pr_info("Cleaning up module.\n");
 }
 
 module_init(hello);

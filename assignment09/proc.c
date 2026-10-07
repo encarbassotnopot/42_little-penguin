@@ -49,13 +49,13 @@ static const struct proc_ops pops = {
 
 static int __init hello(void)
 {
-        proc_create("mymounts", 0444, NULL, &pops);
+	proc_create("mymounts", 0444, NULL, &pops);
 	return 0;
 }
 
 static void __exit goodbye(void)
 {
-        remove_proc_entry("mymounts", NULL);
+	remove_proc_entry("mymounts", NULL);
 }
 
 module_init(hello);

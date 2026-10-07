@@ -17,7 +17,8 @@ struct dentry *ft_dir;
 static int __init hello(void)
 {
 	ft_dir = debugfs_create_dir("fortytwo", NULL);
-	if (!ft_dir) return 1;
+	if (!ft_dir)
+		return 1;
 	debugfs_create_file("id", 0666, ft_dir, NULL, &ft_fops);
 	debugfs_create_file("jiffies", 0444, ft_dir, NULL, &ft_jif);
 	debugfs_create_file("foo", 0644, ft_dir, NULL, &ft_foo);
@@ -26,7 +27,7 @@ static int __init hello(void)
 
 static void __exit goodbye(void)
 {
-        debugfs_remove(ft_dir);
+	debugfs_remove(ft_dir);
 }
 
 module_init(hello);

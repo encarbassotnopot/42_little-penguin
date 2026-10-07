@@ -7,7 +7,7 @@
 static DEFINE_MUTEX(mut);
 static char page[PAGE_SIZE];
 
-ssize_t ft_foo_read (struct file *filp, char __user *buff, size_t count, loff_t *offp)
+ssize_t ft_foo_read(struct file *filp, char __user *buff, size_t count, loff_t *offp)
 {
 	int ret;
 
@@ -17,7 +17,7 @@ ssize_t ft_foo_read (struct file *filp, char __user *buff, size_t count, loff_t 
 	return ret;
 }
 
-ssize_t ft_foo_write (struct file *filp, const char __user *buff, size_t count, loff_t *offp)
+ssize_t ft_foo_write(struct file *filp, const char __user *buff, size_t count, loff_t *offp)
 {
 	int ret;
 
@@ -25,7 +25,7 @@ ssize_t ft_foo_write (struct file *filp, const char __user *buff, size_t count, 
 		return -ENOSPC;
 
 	mutex_lock(&mut);
-	ret = simple_write_to_buffer(page, PAGE_SIZE-1, offp, buff, count);
+	ret = simple_write_to_buffer(page, PAGE_SIZE - 1, offp, buff, count);
 	mutex_unlock(&mut);
 	if (ret < 0)
 		return ret;
