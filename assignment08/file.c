@@ -28,19 +28,18 @@ static struct miscdevice myfd_device = {
 	.fops  = &myfd_fops,
 };
 
-char str[PAGE_SIZE];
-char *tmp;
+static char str[PAGE_SIZE];
+static DEFINE_MUTEX(str_lock);
+static size_t str_len;
 
 static int __init myfd_init(void)
 {
-	int retval;
-
-	retval = misc_register(&(myfd_device));
-	return retval;
+	return misc_register(&myfd_device);
 }
 
 static void __exit myfd_cleanup(void)
 {
+	misc_deregister(&myfd_device);
 }
 
 ssize_t myfd_read(struct file *fp,
@@ -48,17 +47,28 @@ ssize_t myfd_read(struct file *fp,
 		  size_t size,
 		  loff_t *offs)
 {
-	size_t t, i;
-	char *tmp2;
+	size_t t, i, ret;
+	char *tmp;
+
+	if (!str_len)
+		return 0;
+	mutex_lock(&str_lock);
 	/*
 	 * Malloc like a boss
 	 */
-	tmp2 = kmalloc(sizeof(char) * PAGE_SIZE * 2, GFP_KERNEL);
-	tmp = tmp2;
-	for (t = strlen(str) - 1, i = 0; t >= 0; t--, i++)
-		tmp[i] = str[t];
+	tmp = kmalloc(str_len, GFP_KERNEL);
+	if (!tmp) {
+		mutex_unlock(&str_lock);
+		return -ENOMEM;
+	}
+	for (i = 0; i < str_len; i++)
+		tmp[i] = str[str_len - 1 - i];
 	tmp[i] = '\0';
-	return simple_read_from_buffer(user, size, offs, tmp, i);
+	ret = simple_read_from_buffer(user, size, offs, tmp, str_len);
+
+	kfree(tmp);
+	mutex_unlock(&str_lock);
+	return ret;
 }
 
 ssize_t myfd_write(struct file *fp,
@@ -66,12 +76,16 @@ ssize_t myfd_write(struct file *fp,
 		   size_t size,
 		   loff_t *offs)
 {
-	ssize_t res;
+	ssize_t ret;
 
-	res = 0;
-	res = simple_write_to_buffer(str, size, offs, user, size) + 1;
-	str[size + 1] = '\0';
-	return res;
+	mutex_lock(&str_lock);
+	ret = simple_write_to_buffer(str, PAGE_SIZE, offs, user, size);
+	if (ret >= 0) {
+		str[ret] = '\0';
+		str_len = ret;
+	}
+	mutex_unlock(&str_lock);
+	return ret;
 }
 
 module_init(myfd_init);
