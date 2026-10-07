@@ -1,3 +1,0 @@
-general
-- format ok de kernel (quin pal, necessito format auto per nvim)
-- demostracions que funcionen les coses on ho demana l'enunciat
